@@ -1,0 +1,3434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>School Website</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding-top: 80px;
+    }
+    .width-50 {
+        float: left;
+        width: 50%;
+    }
+    .width-33 {
+        float: left;
+        width: 33%;
+    }
+    .width-100 {
+        float: left;
+        width: 100%;
+    }
+    nav {
+      background-color: #2c3e50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      flex-wrap: wrap;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    nav.scrolled {
+      background-color: #1abc9c;
+      padding: 0.2rem 0.5rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: font-size 0.3s ease;
+    }
+    nav.scrolled .logo {
+      font-size: 1rem;
+    }
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+      transition: height 0.3s ease;
+    }
+    nav.scrolled .logo img {
+      height: 30px;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+    .nav-links li {
+      position: relative;
+      margin: 0.5rem;
+    }
+    .nav-links li a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      display: block;
+      font-size: 0.9rem;
+    }
+    .nav-links li a:hover {
+      background-color: #a8c213;
+      border-radius: 5px;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #34495e;
+      list-style: none;
+      padding: 0;
+      min-width: 150px;
+      z-index: 100;
+    }
+    .dropdown li a {
+      padding: 0.5rem 1rem;
+    }
+    .nav-links li:hover .dropdown {
+      display: block;
+    }
+    .content-section {
+      display: none;
+      padding: 2rem;
+    }
+    .content-section.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-text {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      font-size: 36px;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      font-weight: bold;
+    }
+
+    .active-slide {
+      display: block;
+      animation: fade 1.5s;
+    }
+
+    @keyframes fade {
+      from {opacity: .4}
+      to {opacity: 1}
+    }
+
+    .info-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 40px 20px;
+      background-color: #fff;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin: 20px;
+      padding: 30px;
+      max-width: 300px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .info-card h3 {
+      margin-bottom: 15px;
+      color: #003366;
+    }
+
+    .info-card p {
+      font-size: 15px;
+      color: #555;
+    }
+    @media (max-width: 600px) {
+      nav {
+        display: none;
+      }
+
+      .slide-text {
+        font-size: 24px;
+        left: 20px;
+        bottom: 20px;
+      }
+    }
+    .hero-section {
+      background-image: url('images/school-history.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+    .section-title {
+      display: grid;
+    }
+
+    .hero-section h2 {
+      font-size: 48px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .content-section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 36px;
+      text-align: center;
+      color: #003366;
+      margin-bottom: 20px;
+    }
+
+    .section-description {
+      font-size: 18px;
+      line-height: 1.6;
+      text-align: justify;
+      color: #555;
+    }
+
+    .button {
+      background-color: #787eff;
+      font-size: 1rem;
+      position: absolute;
+      display: flex;
+      margin-bottom: 90px;
+      padding: 0px 4px 0px 4px;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      animation: glow 1s ease-in-out infinite alternate;
+    }
+
+    .button:hover {
+      background-color: #28a745;
+      color: white;
+      transform: translateY(-20px);
+      animation: glow 1s ease-in-out infinite alternate;
+    }
+     @-webkit-keyframes glow {
+	       from {
+		      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px blue, 0 0 40px blue,
+		  	 0 0 50px blue, 0 0 60px blueviolet, 0 0 70px blue;
+   	  }
+
+	      to {
+	     	text-shadow: 0 0 20px #fff, 0 0 30px #4dfcff, 0 0 40px #4dfcff,
+			  0 0 50px #4dfcff, 0 0 60px #4dfcff, 0 0 70px #4dfcff, 0 0 80px #4dfcff;
+	    }
+    }
+    .staff-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .staff-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 250px;
+      text-align: center;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .staff-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .staff-card img {
+      width: 100%;
+      border-radius: 50%;
+      height: 200px;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    .staff-card h4 {
+      margin: 10px 0;
+      color: #003366;
+    }
+
+    .staff-card p {
+      font-size: 16px;
+      color: #777;
+    }
+
+    /* Testimonials */
+    .testimonials-section {
+      background: #e0f7fa;
+      padding: 60px 20px;
+    }
+
+    .testimonial {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+
+    .testimonial:hover {
+      transform: translateY(-10px);
+    }
+
+    .testimonial p {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .testimonial h4 {
+      color: #003366;
+    }
+
+    /* Timeline */
+    .timeline {
+      margin: 50px auto;
+      padding: 20px;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      width: 2px;
+      background: #003366;
+      top: 0;
+      left: 50%;
+      height: 100%;
+    }
+
+    .timeline-event {
+      position: relative;
+      padding: 20px;
+      margin: 20px 0;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      width: 45%;
+      float: left;
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
+    .timeline-event.left {
+      left: 0;
+    }
+
+    .timeline-event.right {
+      left: 50%;
+    }
+
+    .timeline-event h3 {
+      color: #003366;
+    }
+    @media (max-width: 768px) {
+      .timeline-event {
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+      }
+
+      .hero-section h2 {
+        font-size: 30px;
+      }
+    }
+
+    /* Typewriter Effect */
+    .typewriter {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      margin-top: 20px;
+      display: inline-block;
+    }
+    .notice-board-sect {
+          background: white;
+          float: left;
+          width: 98%;
+          margin: 0px auto;
+          display: table;
+          padding: 15px 10px 20px 10px;
+        }
+        .notice-board-sect h2 {
+          float: left;
+          font: 20px;
+          color: #787fe1;
+          text-align: left;
+          padding: 10px 10px 10px 20px;
+        }
+        .notice-board {
+          float: left;
+          width: 100%;
+          border: 3px solid #787ff1;
+          border-radius: 10px;
+          margin-top: 10px;
+        }
+        .notice-board ul {
+          padding: 0px 10px 0px 5px;
+          float: left;
+          width: 100%;
+          list-style: none;
+        }
+        .notice-board ul li {
+          margin-bottom: 20px;
+          font-size: 16px;
+          width: 100%;
+          float: left;
+        }
+        .notice-board img {
+          width: 35px;
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+        .event-list {
+          width: 100%;
+          float: left;
+          padding: 0;
+        }
+        .event-list li {
+          width: 100%;
+          float: left;
+          list-style: none;
+          border-radius: 10px;
+          padding: 10px 6px 10px 5px;
+          box-shadow: 0px 0px 2px 0px #ffffff1f;
+          border: 1px solid #dddddd;
+          margin-bottom: 20px;
+        }
+        .event-date {
+          text-align: center;
+          float: left;
+          border: 2px solid #787ff1;
+          border-radius: 10px;
+          padding-top: 5px;
+          width: 85px;
+        }
+        .event-date h3 {
+          font-size: 18px;
+          padding-top: 0px;
+        }
+        .event-date p {
+          font-family: 14px;
+          background: #787fe1;
+          color: white;
+          padding: 5px;
+          margin-top: 5px;
+        }
+        .event-content {
+          float: left;
+          width: calc(100% - 90px);
+          padding: 0px 0px 0px 10px;
+        }
+        .event-content h5 {
+          font-weight: 500;
+          font-size: 18px;
+          margin-bottom: 6px;
+          color: #424242;
+        }
+        .event-content a {
+          margin-right: 50px;
+          font-weight: bold;
+          color: #787ff1;
+          text-decoration: none;
+        }
+        .event-content p {
+          font-size: 16px;
+          border-top: 1px solid #e3e3e3;
+          padding-top: 8px;
+          margin-top: 9px;
+        }
+        .heading {
+          background: url('') no-repeat;
+          background-size: cover;
+          background-position: center;
+        }
+
+        .heading h3 {
+          font-size: 1.5rem;
+          color: #302851;
+        }
+
+        .heading p {
+          font-size: 1.2rem;
+          color: #666;
+          padding-top: .5rem;
+        }
+
+        .heading p a {
+          padding-right: .3rem;
+          color: #fa1d86;
+          text-decoration: none;
+        }
+
+        .heading p a:hover {
+          color: #224bcf;
+        }
+        .course-1 {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: (minmax(31rem, 1fr))[auto-fit];
+          grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+          gap: 1.5rem;
+        }
+
+        .course-1 .box {
+          background: #f5f5f5;
+          border-radius: 1rem;
+          text-align: center;
+          padding: 3rem 2rem;
+        }
+
+        .course-1 .box img {
+          margin-bottom: 1rem;
+          height: 2rem;
+        }
+
+        .course-1 .box h3 {
+          font-size: 1rem;
+          color: #302851;
+          padding: 1rem 0;
+        }
+
+        .course-1 .box p {
+          font-size: 0.8rem;
+          color: #666;
+          line-height: 2;
+          padding: 1rem 0;
+        }
+        .course-2 {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: (minmax(31rem, 1fr))[auto-fit];
+          grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+          gap: 3rem;
+          padding-right: 60px;
+          padding-left: 60px;
+        }
+
+        .course-2 .box {
+          padding: 2rem;
+          border-radius: 1rem;
+          background: #f5f5f5;
+        }
+
+        .course-2 .box .image {
+          margin-bottom: 2rem;
+          text-align: center;
+        }
+
+        .course-2 .box .image img {
+          height: 22rem;
+        }
+
+        .course-2 .box .content span {
+          font-size: 1rem;
+          color: #fa1d86;
+          background: #ffeaf4;
+          padding: .5rem 1rem;
+        }
+
+        .course-2 .box .content h3 {
+          color: #302851;
+          line-height: 2;
+          margin-top: 1.5rem;
+          font-size: 1rem;
+        }
+
+        .course-2 .box .content p {
+          font-size: 0.8rem;
+          color: #666;
+          line-height: 2.5;
+          padding: 1rem 0;
+        }
+
+        .course-2 .box .content .icons {
+          margin-top: 2rem;
+          padding-top: 2rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+          border-top: 0.1rem solid rgba(0, 0, 0, 0.1);
+        }
+
+        .course-2 .box .content .icons a {
+          font-size: 0.9rem;
+          color: #666;
+        }
+
+        .course-2 .box .content .icons a:hover {
+  color: #fa1d86;
+        }
+
+        .course-2 .box .content .icons a i {
+          padding-right: .3rem;
+          color: #fa1d86;
+        }
+        .course-3 {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: (minmax(31rem, 1fr))[auto-fit];
+          grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+          gap: 1.5rem;
+        }
+
+        .course-3 .box {
+          text-align: center;
+          overflow: hidden;
+        }
+
+        .course-3 .box:hover .video video {
+          -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+        }
+
+        .course-3 .box .video {
+          height: 20rem;
+          width: 100%;
+          overflow: hidden;
+          border-radius: .5rem;
+          position: relative;
+        }
+
+        .course-3 .box .video video {
+          height: 100%;
+          width: 100%;
+          -o-object-fit: cover;
+          object-fit: cover;
+          cursor: pointer;
+        }
+
+        .course-3 .box .video i {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+          font-size: 2rem;
+          height: 5rem;
+          width: 5rem;
+          line-height: 5rem;
+          border-radius: 50%;
+          background: #fff;
+          color: #302851;
+          pointer-events: none;
+          z-index: 10;
+        }
+
+        .course-3 .box .content {
+          padding-top: 1rem;
+        }
+
+        .course-3 .box .content h3 {
+          font-size: 1rem;
+          color: #302851;
+          padding: .5rem 0;
+        }
+
+        .course-3 .box .content p {
+          font-size: 1rem;
+          color: #666;
+        }
+
+        .main-video {
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 10000;
+          background: rgba(0, 0, 0, 0.7);
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          height: 100%;
+          width: 100%;
+          display: none;
+        }
+
+        .main-video.active {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+        }
+
+        .main-video #close-vid {
+          position: absolute;
+          top: 1.5rem;
+          right: 2.5rem;
+          font-size: 6rem;
+          color: #fff;
+          cursor: pointer;
+        }
+
+        .main-video video {
+          width: 80%;
+          border: 0.5rem solid #fff;
+          border-radius: .5rem;
+        }
+        .blog {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: (minmax(31rem, 1fr))[auto-fit];
+          grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+          gap: 1.5rem;
+        }
+
+        .blog .box .image {
+          height: 20rem;
+          width: 100%;
+          overflow: hidden;
+        }
+
+        .blog .box .image img {
+          height: 100%;
+          width: 100%;
+          -o-object-fit: cover;
+          object-fit: cover;
+          border-radius: .5rem;
+        }
+
+        .blog .box .content {
+          padding: 2rem;
+          background: #f5f5f5;
+        }
+
+        .blog .box .content .icons {
+          padding: 1.5rem 0;
+          margin-bottom: 1rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+        }
+
+        .blog .box .content .icons a {
+          font-size: 1rem;
+          color: #666;
+        }
+
+        .blog .box .content .icons a:hover {
+          color: #224bcf;
+        }
+
+        .blog .box .content .icons a i {
+          padding-right: 1rem;
+          color: #224bcf;
+        }
+
+        .blog .box .content h3 {
+          font-size: 1rem;
+          padding: .5rem 0;
+          color: #302851;
+        }
+
+        .blog .box .content p {
+          padding: 1rem 0;
+          font-size: 0.9rem;
+          line-height: 2.5;
+          color: #666;
+        }
+        .teachers {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: (minmax(20rem, 1fr))[auto-fit];
+          grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+          gap: 1.5rem;
+        }
+
+        .teachers .box {
+          text-align: center;
+          overflow: hidden;
+        }
+
+        .teachers .box:hover .image .share {
+          -webkit-transform: translateY(0);
+          transform: translateY(0);
+        }
+
+        .teachers .box:hover .image .share a {
+          -webkit-transform: translateY(-1rem);
+          transform: translateY(-1rem);
+          opacity: 1;
+          -webkit-transition: -webkit-transform .2s .2s;
+          transition: -webkit-transform .2s .2s;
+          transition: transform .2s .2s;
+          transition: transform .2s .2s, -webkit-transform .2s .2s;
+        }
+
+        .teachers .box .image {
+          overflow: hidden;
+          height: 20rem;
+          width: 100%;
+          position: relative;
+          border-radius: 2rem;
+        }
+
+        .teachers .box .image .share {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: rgba(0, 0, 0, 0.7);
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: end;
+          -ms-flex-align: end;
+          align-items: flex-end;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          z-index: 10;
+          overflow: hidden;
+          -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+        }
+
+        .teachers .box .image .share a {
+          font-size: 2.5rem;
+          margin: 2rem 1.5rem;
+          color: #fff;
+          -webkit-transform: translateY(5rem);
+          transform: translateY(5rem);
+          opacity: 0;
+        }
+
+        .teachers .box .image .share a:hover {
+          color: #fa1d86;
+        }
+
+        .teachers .box .image img {
+          height: 100%;
+          width: 100%;
+          -o-object-fit: cover;
+          object-fit: cover;
+        }
+
+        .teachers .box .content {
+          padding-top: 1rem;
+        }
+
+        .teachers .box .content h3 {
+          font-size: 1rem;
+          color: #302851;
+        }
+
+        .teachers .box .content span {
+          color: #666;
+          font-size: 1rem;
+        }
+        .contact .icons-container {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: (minmax(10rem, 1fr))[auto-fit];
+           grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+           gap: 1.5rem;
+        }
+
+        .contact .icons-container .icons {
+          text-align: center;
+          padding: 2rem;
+          border-radius: 1rem;
+          background: #f5f5f5;
+          margin-bottom: 2rem;
+        }
+
+        .contact .icons-container .icons i {
+          height: 4rem;
+          width: 4rem;
+          line-height: 6.5rem;
+          font-size: 1rem;
+          color: #224bcf;
+          background: #e9edfb;
+          border-radius: 50%;
+          text-align: center;
+          margin-bottom: .5rem;
+        }
+
+        .contact .icons-container .icons h3 {
+          font-size: 1rem;
+          color: #302851;
+          padding: .7rem 0;
+        }
+
+        .contact .icons-container .icons p {
+          line-height: 2;
+          font-size: 0.9rem;
+          color: #1abc9c;
+        }
+
+        .contact .row {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+          gap: 1.2rem;
+        }
+
+        .contact .row form {
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 30rem;
+          flex: 1 1 30rem;
+          border-radius: 1rem;
+          background: #f5f5f5;
+          padding: 2rem;
+        }
+
+        .contact .row form h3 {
+          font-size: 2.5rem;
+          color: #302851;
+          margin-bottom: .5rem;
+        }
+
+        .contact .row form .box, .contact .row form textarea {
+          width: 100%;
+          padding: 1rem 1rem;
+          font-size: 1rem;
+          color: #666;
+          text-transform: none;
+          margin: 1rem 0;
+          border-radius: .5rem;
+          background: #fff;
+        }
+
+        .contact .row form textarea {
+          height: 8rem;
+          resize: none;
+        }
+        .contact .row form .btn {
+          background-color: #1abc9c;
+          width: 30%;
+          float: left;
+          margin-left: 10px;
+        }
+
+        .contact .row .map {
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 30rem;
+          flex: 1 1 30rem;
+          width: 100%;
+          border-radius: 1rem;
+          height: 34rem;
+        }
+        .video-section {
+      padding: 40px 20px;
+      background-color: #e9f5fe;
+    }
+
+    .video-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .video-card {
+      background-color: white;
+      width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .video-card:hover {
+      transform: scale(1.05);
+    }
+
+    .video-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .video-card-content {
+      padding: 20px;
+    }
+
+    .video-card-content h3 {
+      font-size: 20px;
+      color: #003366;
+      margin-bottom: 10px;
+    }
+
+    .video-card-content p {
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .video-card-content .view-video {
+      text-align: center;
+      background-color: #0077cc;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .video-card-content .view-video:hover {
+      background-color: #005fa3;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      position: relative;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .modal-content video {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 30px;
+      font-weight: bold;
+      color: #003366;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .video-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    header {
+      background: #003366;
+      padding: 15px 20px;
+      color: white;
+      text-align: center;
+    }
+
+    header h1 span {
+      border-right: 2px solid white;
+      padding-right: 5px;
+      animation: typing 10s steps(40, end) infinite, blink .75s step-end infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    @keyframes typing {
+      0% { width: 0; }
+      50% { width: 100%; }
+      100% { width: 0; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    .login-bar, .search-bar {
+      background: #e0e0e0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .login-form input {
+      margin-right: 5px;
+      padding: 10px;
+    }
+
+    .login-form button {
+      background: #003366;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .feature {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature h2 {
+      color: #003366;
+    }
+
+    .feature-content {
+      width: 70%;
+    }
+
+    .feature-content iframe {
+      width: 100%;
+      height: 300px;
+    }
+
+    .feature-action {
+      width: 25%;
+      background: #003366;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 10px 0;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card a {
+      color: #003366;
+      text-decoration: none;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      transition: 0.3s;
+    }
+
+    .video-section, .assignment-section, .discussion-section, .quiz-section {
+      margin: 20px;
+    }
+
+    .quiz-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .quiz-item {
+      background: #fff;
+      border-radius: 8px;
+      margin: 10px 0;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .load-more {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .load-more button {
+      padding: 10px 20px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .integration-links {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .integration-links button {
+      margin: 10px;
+      padding: 10px 15px;
+      border: none;
+      background: #007BFF;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .filters {
+      margin-top: 10px;
+    }
+
+    select {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    #notesContainer {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .note-card {
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    main {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .class-section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .class-section h2 {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .subject {
+      margin-bottom: 20px;
+    }
+
+    .subject h3 {
+      color: #003366;
+      margin-bottom: 10px;
+    }
+
+    .note {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f0f4f8;
+      margin-bottom: 8px;
+      padding: 10px 15px;
+      border-left: 5px solid #0077cc;
+      border-radius: 8px;
+    }
+
+    .note-title {
+      flex: 1;
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .note-actions a {
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      color: white;
+    }
+
+    .preview-btn {
+      background: #28a745;
+    }
+
+    .download-btn {
+      background: #007bff;
+    }
+    @media (max-width: 600px) {
+      .feature {
+        flex-direction: column;
+      }
+      .feature-content, .feature-action {
+        width: 100%;
+      }
+    }
+    .news-section {
+      padding: 40px 20px;
+      background-color: #e9f5fe;
+    }
+
+    .news-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .news-card {
+      background-color: white;
+      width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .news-card:hover {
+      transform: scale(1.05);
+    }
+
+    .news-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .news-card-content {
+      padding: 20px;
+    }
+
+    .news-card-content h3 {
+      font-size: 20px;
+      color: #003366;
+      margin-bottom: 10px;
+    }
+
+    .news-card-content p {
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .news-card-content .read-more {
+      text-align: center;
+      background-color: #0077cc;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .news-card-content .read-more:hover {
+      background-color: #005fa3;
+    }
+
+    .load-more-btn {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .load-more-btn:hover {
+      background-color: #005fa3;
+    }
+    .featured-news {
+      background-color: #003366;
+      color: white;
+      padding: 30px 20px;
+      margin-bottom: 40px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .featured-news h2 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .featured-news p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .featured-news .read-more {
+      text-decoration: none;
+      color: white;
+      background-color: #0077cc;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .featured-news .read-more:hover {
+      background-color: #005fa3;
+    }
+
+    @media (max-width: 768px) {
+      .news-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .developer-section {
+    background-color: #1e1e2f;
+    color: #fff;
+    padding: 2rem 2rem;
+    min-height: 100vh;
+    width: 100%;
+  }
+  .developer-heading {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #1abc9c;
+    display: inline-block;
+  }
+  .developer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .developer-card {
+    background: #2c2c3e;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .developer-img {
+    width: 100%;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+  .developer-name {
+    color: #1abc9c;
+  }
+  .developer-role,
+  .developer-skills {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+  .developer-cta {
+    text-align: center;
+    margin-top: 3rem;
+  }
+  .developer-button {
+    background: #1abc9c;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+
+    .footer-section {
+     padding-top: 50px;
+     padding-bottom:20px;
+     background: #787eff;
+     width: 100%;
+     float: left;
+}
+ .footer-section h3 {
+     font-size:28px;
+     color:#fff;
+}
+ .footer-section p {
+     font-size: 14px;
+     line-height: 25px;
+     color: #fff;
+     margin-top: 20px;
+     padding: 0px 30px 0px 0px;
+}
+ .footer-about i {
+     border: 1px solid #e5e3e3;
+     font-size: 20px;
+     margin-right: 10px;
+     margin-top:20px;
+     background: #fff;
+     border-radius: 50%;
+     height: 40px;
+     width: 40px;
+     text-align: center;
+     line-height: 40px;
+     color: #787eff;
+}
+ .quick-link ul {
+     margin-top:30px;
+     list-style:none;
+     float:left;
+     width: 100%;
+}
+ .quick-link li {
+     width: 50%;
+     float:left;
+     margin-bottom: 10px;
+}
+ .quick-link li a {
+     font-size:14px;
+     color:#fff;
+     text-decoration:none;
+     transition: transform 0.3s ease;
+     font-weight: 600;
+}
+.quick-link li a:hover {
+   color:  #fa1d86;
+   font-weight: 2000;
+}
+.quick-link li a:hover {
+  padding-right: 5rem;
+  transform: translateY(-20px);
+}
+ .subscribe-us input {
+     margin-top:20px;
+     padding: 10px;
+     border: 1px solid #e5e3e3;
+     border-radius: 5px;
+     width: 100%;
+     color: #000000;
+     text-align: left;
+     background: #fff;
+     height: 42px;
+}
+ .subscribe-us button {
+     padding: 12px;
+     background: #ff5722;
+     color: white;
+     font-size: 14px;
+     width: 100%;
+     float: left;
+     margin-top: 10px;
+     border: none;
+     cursor: pointer;
+}
+    .s-card {
+      border-radius: 10px;
+      width: 250px;
+      background-color: #fff;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+    .s-card img {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
+    }
+    .s-card:hover {
+      transform: translateY(-20px);
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    form {
+      max-width: 500px;
+      margin-top: 2rem;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    form button {
+      padding: 0.5rem 1rem;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    iframe {
+      border: 0;
+      width: 100%;
+      height: 300px;
+      margin-top: 2rem;
+      border-radius: 8px;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: #000; }
+    }
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+      }
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+      }
+      .nav-links li {
+        margin: 0.5rem 0;
+      }
+    }
+    /* Chatbot Styles */
+    #chatbot {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      max-height: 400px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 1000;
+      font-family: sans-serif;
+    }
+    #chat-header {
+      background: #2c3e50;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+    }
+    
+    .navbar .personalInfo{
+        line-height: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: auto 0px;
+        margin-left: 2%;
+    }
+    
+    .personalInfo #name{
+        color: #e9edef;
+        margin-bottom: 4px;
+    }
+    
+    .personalInfo #lastseen{
+        color: #8696a0;
+        font-size: small;
+    }
+    
+    #chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+    }
+    .chat-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    .chat-message.bot {
+      color: #2c3e50;
+      justify-content: flex-start;
+    }
+    .chat-message.user {
+      color: #16a085;
+      justify-content: flex-end;
+      text-align: right;
+    }
+    .chat-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+    .bot .chat-avatar {
+      background: #2c3e50;
+      display: inline-block;
+    }
+    .user .chat-avatar {
+      background: #16a085;
+      display: inline-block;
+    }
+    #typing-indicator {
+      font-style: italic;
+      color: gray;
+      padding: 0 10px;
+      display: none;
+    }
+    #chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    #chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+    }
+    #chat-input button {
+      background: #2c3e50;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+        #chatbot-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 100%;
+            cursor: pointer;
+        }
+        #chatbot-button:hover {
+          background-color: #003366;
+          color: #a77f28;
+          font-weight: bolder;
+          font-style: oblique;
+          box-shadow: 0 0 50% #a77f28 0 0 100 #003366;
+        }
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <div class="logo">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjmbF3jhceZIWWSCyKZkPLtzFuclX47XDDH8LuF66jVK5I4XFZlhjPb5SRm9DQM3GRxc6ay12R7iBglc4XJM_M0Q4XYrsLm-lPPKTeTVvkfct6gB6o05XpQ6BYj7Z4HYW5bPK2LXAqE8_2bBt2Ev_pTqJriEx7QNq9wa9A8fNacvGmkGHISOx0Z5QyKdU4/w945-h600-p-k-no-nu/IMG-20250506-WA0016.jpg" alt="Logo">
+  
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showSection('home')">Home</a></li>
+      <li><a href="#" onclick="showSection('about')">About</a></li>
+      <li>
+        <a href="#">Pages +</a>
+        <ul class="dropdown">
+          <li><a href="#" onclick="showSection('events')">Events</a></li>
+          <li><a href="#" onclick="showSection('blog')">Blogs</a></li>
+          <li><a href="#" onclick="showSection('teachers')">Staff</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="showSection('admission')">Admission</a></li>
+      <li><a href="#" onclick="showSection('notes')">E-Learning</a></li>
+      <li>
+        <a href="#">More +</a><I class="fa fa-arrow-down"></I>
+        <ul class="dropdown">
+          <li><a href="#" onclick="showSection('videos')">Videos</a></li>
+          <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+          <li><a href="#" onclick="showSection('news')">News</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Curriculum Courses +</a>
+        <ul class="dropdown">
+          <li><a href="#" onclick="showSection('course-1')">Course-1</a></li>
+          <li><a href="#" onclick="showSection('course-2')">Course-2</a></li>
+          <li><a href="#" onclick="showSection('course-3')">Course-3</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="home" class="content-section active">
+    <div class="slideshow-container">
+      <div class="slide active-slide"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3RsbcYFbwXCH-vgNy4Z1JJS_LIID0qdGc-UFlKV2Az_8CDXaVz9CEcmmJydI_TVkhN5xo6N6Ac82JIULwujljQjhxoXqZAw7FZhqDrwFEsfxbcO4JY5b3pK9Rif3fG4h7f0TDCUIl53Y5LWER0M_Q0bTdMH2TB9q_3yUOzsUGhNIxIpmgAmcona6Q3XI/w945-h600-p-k-no-nu/IMG-20250506-WA0001.jpg" alt="Slide 1"><div class="slide-text" id="slide-text"></div></div>
+      <div class="slide"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjeHPuuLNouxmMRzxRy9A5S9I37BH350o0Jq6Tjq8AI-Q4qc874clKZXy9qC_Qg96KCGSL9jJP0GfxoiTpLW3B9naN_djncb1QJmSm2_osgbSYJDLIM7t4MKOeY4BVJvpSM-5aqBoYEx7BKBeSzWlI4jwSj7hb7pT9Rb9trkiCR3pktzmlkrnhjDHi4Kzw/w945-h600-p-k-no-nu/IMG-20250506-WA0008.jpg" alt="Slide 2"><div class="slide-text"></div></div>
+      <div class="slide"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjts4w9a_nhq4U1LdD7v7US47rV9nRIT6qz5SNQnZGNxcRxg1st5ttlQd_sPX_sQxTJ-4ytxTxbj-fJV8Pp6f1w2SU-YnzT451912J6AvJyn-84bl4sTX2a15hy76kAE8Tbim8N7APQLSclTFgwC24xQAUAEkIjomijC3r30CWE99E1cUU_Ynyn5wC2H88/w945-h600-p-k-no-nu/IMG-20250506-WA0013.jpg" alt="Slide 3"><div class="slide-text"></div></div>
+      <div class="slide"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjymm4EM3Rl9RYXay9AgPCdN7tm1-cv89z7mXdW7mHP_mogeRLpFqdMhiv9eihl0j_N4IuWBBmiWsFiyL4y-DqiLran4P68D_FoFbWwC_wSxqokOOm1O29-jDdFXvPAgeT6gxCOS_MmR6CmxGWn9byNWGg0U7lMsDJUETp7hc-eEKmsuHV_Br4ZjTOvfJQ/w945-h600-p-k-no-nu/IMG-20250503-WA0002.jpg" alt="Slide 4"><div class="slide-text"></div></div>
+    </div>
+    
+    <section class="info-section">
+      <div class="info-card">
+        <h3>📘 Our Mission</h3>
+        <p>We aim to nurture learners to become responsible, innovative, and impactful citizens.</p>
+      </div>
+      <div class="info-card">
+        <h3>🎓 Academics</h3>
+        <p>From Senior 1 to 6, we offer diverse programs to help students excel.</p>
+      </div>
+      <div class="info-card">
+        <h3>🏆 Achievements</h3>
+        <p>Top performance in national exams, sports, and innovation fairs.</p>
+      </div>
+      <div class="info-card">
+        <h3>🔗 Quick Links</h3>
+        <p>Access notes, student portal, and admissions with just one click.</p>
+      </div>
+    </section>
+  </div>
+  <!-- Chatbot Button -->
+  <button id="chatbot-button" onclick="toggleChatbot()">Chat with Us!</button>
+
+  <!-- Chatbot -->
+  <div id="chatbot" class="chatbot" style="display:none;">
+      <div id="chatbox">
+          <div id="messages"></div>
+      </div>
+      <body onload="startFunction()">
+        <div id="chatbot">
+          <div id="chat-header">Ask a Question school assistant</div>
+          <div class="personalInfo">
+            <label id="name">School assistant</label>
+            <label id="lastseen">last seen today at 3:24 pms</label>
+        </div>
+          <div id="chat-messages">
+            <div class="chat-message bot">
+              <div class="chat-avatar"></div>
+              <div>Hi 👋! I'm your school assistant. How can I help you today?</div>
+            </div>
+          </div>
+          <div id="typing-indicator">Online assistant is typing...</div>
+          <div id="chat-input">
+            <input type="text" id="userInput" placeholder="Type your question..." onkeydown="if(event.key==='Enter'){sendMessage()}"/>
+            <button onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+  <div id="about" class="content-section">
+    <section class="heading">
+      <h3>About us</h3>
+      <p><a href="#" onclick="showSection('home')">home>>></a> about us</p>
+    </section>
+    <div class="hero-section">
+      <h2>About Us</h2>
+      <div class="typewriter" id="typewriter-text"></div>
+    </div>
+        <h2 class="section-title">Our History</h2>
+        <p class="section-description">
+          Established in 1990, My School has been a beacon of educational excellence. From its humble beginnings, we have grown to become a leading institution offering a holistic education that fosters academic achievement and personal growth.
+        </p>
+    
+      <!-- Vision & Mission Section -->
+        <h2 class="section-title">Vision & Mission</h2>
+        <p class="section-description">
+          <strong>Vision:</strong> To be a global leader in educational innovation and excellence, shaping future generations to become responsible, resourceful, and capable leaders.
+        </p>
+        <p class="section-description">
+          <strong>Mission:</strong> Our mission is to provide a nurturing environment where students can explore their full potential, excel academically, and make a positive impact in society.
+        </p>
+    
+      <!-- Core Values Section -->
+        <h2 class="section-title">Core Values</h2>
+        <p class="section-description">
+          We believe in Integrity, Respect, Responsibility, Innovation, and Excellence. These values guide our actions, decisions, and approach to education.
+        </p>
+    
+      <!-- Staff Section -->
+      <div class="staff-section">
+        <div align="left">
+          <button class="button" onclick="showSection('teachers')">Meet Staff</button>
+        </div>
+        <h2 class="section-title">Meet Our Staff</h2>
+        <div class="staff-card">
+          <img src="images/staff1.jpg" alt="Staff Member 1">
+          <h4>Mr. Raymond</h4>
+          <p>Head of School</p>
+        </div>
+        <div class="staff-card">
+          <img src="images/staff2.jpg" alt="Staff Member 2">
+          <h4>Mr.Dan</h4>
+          <p>Mathematics Teacher</p>
+        </div>
+        <div class="staff-card">
+          <img src="images/staff3.jpg" alt="Staff Member 3">
+          <h4> <.....> </h4>
+          <p>History Teacher</p>
+        </div>
+      </div>
+    
+    
+    <!-- Testimonials Section -->
+    <div class="testimonials-section">
+      <h2 class="section-title">Student Testimonials</h2>
+      <div class="testimonial">
+        <p>"My time at Nyabuhikye Secondary School has been an enriching journey. The teaching staff are incredible, and the school provides everything I need to succeed!"</p>
+        <h4>Anold Bakesiima, Senior 5S 2025</h4>
+      </div>
+      <div class="testimonial">
+        <p>"I love the friendly environment and the academic rigor at My School. The extracurricular activities have helped me grow holistically!"</p>
+        <h4>Henry Katusiime, Senior 5A 2025</h4>
+      </div>
+    </div>
+    
+    <!-- Timeline Section -->
+    <div class="timeline">
+      <h2 class="section-title">Our School Timeline</h2>
+      <div class="timeline-event left">
+        <h3>1990: School Founded</h3>
+        <p>Our school was founded with the vision of providing quality education to all students in the community.</p>
+      </div>
+      <div class="timeline-event right">
+        <h3>2025: </h3>
+        <p> , marking a significant milestone in our history.</p>
+      </div>
+    </div>
+  </div>
+</div>
+  <div id="events" class="content-section">
+    <section class="heading">
+      <h3>Events</h3>
+      <p> <a href="#" onclick="showSection('home')">home  >>> </a> Events </p>
+  </section>
+    <div class="main-section bg-grey">
+      <div class="container">
+         <div class="width-50">
+            <div class="notice-board-sect">
+               <h2><i class="fa fa-sticky-note-o" aria-hidden="true"></i> Notice Bord</h2>
+               <div class="notice-board">
+                  <marquee direction="up"  scrollamount="2" height="400">
+                     <ul>
+                        <li><img src="images/new.gif"> Report of Acrivities to submitted till 15/02/2023 Appointed counseling of Director</li>
+                        <li><img src="images/new.gif"> Regarding preparation Appointed counseling of Director of nAAC</li>
+                        <li> <img src="images/new.gif"> Counseler has been  Appointed counseling of Student </li>
+                        <li> <img src="images/new.gif"> Meeting to Organized on College Level College Level  15/02/202 </li>
+                        <li> <img src="images/new.gif"> Counseler has been  Appointed counseling of Doctor </li>
+                        <li> <img src="images/new.gif"> Conducted its 2nd convocation ceremony. </li>
+                        <li> <img src="images/new.gif"> Counseler has been College Level   Appointed counseling of Director </li>
+                        <li> <img src="images/new.gif"> 16 feb 2022 Ph D merit list Part 01_16 feb 2022 </li>
+                        <li> <img src="images/new.gif"> List of Activities organised under TEQIP-III </li>
+                        <li> <img src="images/new.gif"> School of Architecture College Level counselling 2022-23 </li>
+                        <li> <img src="images/new.gif"> Documents for empanellment of vendor for A Class contyractor </li>
+                        <li> <img src="images/new.gif"> Counseler has been  Appointed counseling of Director </li>
+                        <li> <img src="images/new.gif"> Counseler has been  Appointed counseling of Director </li>
+                        <li> <img src="images/new.gif"> Counseler has been  Appointed counseling of Director </li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                     </ul>
+                  </marquee>
+               </div>
+            </div>
+         </div>
+         <div class="width-50">
+            <div class="notice-board-sect">
+               <h2><i class="fa fa-id-card" aria-hidden="true"></i> Upcoming Events</h2>
+               <div class="notice-board">
+                  <marquee direction="up" scrollamount="2" height="400">
+                     <ul class="event-list">
+                        <li>
+                           <div class="event-date">
+                              <h3>27 <br>
+                                 April
+                              </h3>
+                              <p>9:00 PM<br>
+                                 4:00 AM
+                              </p>
+                           </div>
+                           <div class="event-content">
+                              <h5> School  Level counselling 2022-23</h5>
+                              <a href="#"><i class="fa fa-user icon"></i></i> Join us</a> <a  href="#"><i class="fa fa-map-marker"></i> Nyabs sec sch</a>
+                              <p>West Zone Inter Classes Table Teniss (man) Tournament 2025-26</p>
+                           </div>
+                        </li>
+                        <li>
+                           <div class="event-date">
+                              <h3>27 <br>
+                                 April
+                              </h3>
+                              <p>9:00 PM<br>
+                                 4:00 AM
+                              </p>
+                           </div>
+                           <div class="event-content">
+                              <h5> School  Level counselling 20-Dec-203</h5>
+                              <a href="#"><i class="fa fa-user icon"></i></i> Join us</a> <a  href="#"><i class="fa fa-map-marker"></i> Nyabs Sec Sch</a>
+                              <p>If you are going to use a to use a to use a to use  of text</p>
+                           </div>
+                        </li>
+                        <li>
+                           <div class="event-date">
+                              <h3>27 <br>
+                                 April
+                              </h3>
+                              <p>9:00 PM<br>
+                                 4:00 AM
+                              </p>
+                           </div>
+                           <div class="event-content">
+                              <h5>Nyabs  Inter Classes Table Teniss</h5>
+                              <a href="#"><i class="fa fa-user icon"></i></i> Join us</a> <a  href="#"><i class="fa fa-map-marker"></i> Nyabs Sec School</a>
+                              <p>Use a to use a to use a in the middle of text Tournament</p>
+                           </div>
+                        </li>
+                     </ul>
+                  </marquee>
+               </div>
+            </div>
+         </div>
+      </div>
+    </div>
+  </div>
+  <div id="contact" class="content-section">
+    <section class="heading">
+      <h3>Contact us</h3>
+      <p> <a href="#" onclick="showSection('home')"> home  >>> </a> contact </p>
+  <section class="contact">
+  
+      <div class="icons-container">
+  
+          <div class="icons">
+              <i class="fas fa-phone"></i>
+              <h3>Our Number</h3>
+              <p>+256-756-7840</p>
+              <p>+256-773-741858</p>
+          </div>
+  
+          <div class="icons">
+              <i class="fas fa-envelope"></i>
+              <h3>Our Email</h3>
+              <p>nyabuhikyesecondaryschool@gmail.com</p>
+              <p>raymond@gmail.com</p>
+          </div>
+  
+          <div class="icons">
+              <i class="fas fa-map-marker-alt"></i>
+              <h3>Our Address</h3>
+              <p>Ibanda, Uganda - PO. Box 108</p>
+          </div>
+  
+      </div>
+  
+      <div class="row">
+  
+        <form action="mailto:school@example.com" method="post" enctype="text/plain">
+              <h3>Get in touch</h3>
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="email" name="email" placeholder="Your Email" required>
+              <input type="number" placeholder="your number" required ="box">
+              <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+              <input type="submit" value="Send message" class="btn">
+          </form>
+  
+          <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15959.205761103976!2d30.47303382388017!3d-0.1666664973070515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19d8bdace80861f5%3A0xf480b2e114b442c5!2sNyabuhikye!5e0!3m2!1sen!2sug!4v1746920980090!5m2!1sen!2sug"  allowfullscreen="" loading="lazy"></iframe>
+  
+      </div>
+  
+  </section>
+</div>
+</div>
+  <div id="course-1" class="content-section">
+    <section class="heading">
+      <h3>course-01</h3>
+      <p> <a href="#" onclick="showSection('home')"> home  >>></a> course-1 </p>
+  </section>
+    <section class="course-1">
+
+      <div class="box">
+          <img src="images/course-1.png" alt="">
+          <h3>web design</h3>
+          <p>Web Design for Everybody: Basics of Web Development & Coding Specialization.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  
+      <div class="box">
+          <img src="images/course-2.png" alt="">
+          <h3>seo marketing</h3>
+          <p>Advanced Search Engine Optimization Strategies.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  
+      <div class="box">
+          <img src="images/course-3.png" alt="">
+          <h3>science & biology</h3>
+          <p>Biology Everywhere Foundations.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  
+      <div class="box">
+          <img src="images/course-4.png" alt="">
+          <h3>music & dance</h3>
+          <p>Healing with the Arts.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  
+      <div class="box">
+          <img src="images/course-5.png" alt="">
+          <h3>digital marketing</h3>
+          <p>Digital Marketing Strategy and Planning Specialization.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  
+      <div class="box">
+          <img src="images/course-6.png" alt="">
+          <h3>maths & statistics</h3>
+          <p>Mastering Statics.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  
+      <div class="box">
+          <img src="images/course-7.png" alt="">
+          <h3>data analysis</h3>
+          <p>Data Analysis and Visualization.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  
+      <div class="box">
+          <img src="images/course-8.png" alt="">
+          <h3>email marketing</h3>
+          <p>Think Outside the Inbox: Email Marketing.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  
+      <div class="box">
+          <img src="images/course-9.png" alt="">
+          <h3>graphic design</h3>
+          <p>Fundamentals of Graphic Design.</p>
+          <a href="#" class="btn">read more</a>
+      </div>
+  </section>
+  </div>
+  <!-- course-1 section ends -->
+   <div id="course-2" class="content-section">
+    <section class="heading">
+      <h3>course-02</h3>
+      <p> <a href="#" onclick="showSection('home')"> home >>></a> course-2 </p>
+  </section>
+  
+  <!-- course-2 section starts  -->
+  
+  <section class="course-2">
+  
+      <div class="box">
+          <div class="image">
+              <img src="images/main-course-1.png" alt="">
+          </div>
+          <div class="content">
+              <span>business</span>
+              <h3>Introduction to Business Specialization</h3>
+              <p>Jumpstart Your Business Management Career!. Adopt industry recommended best practices in business management.</p>
+              <a href="#" class="btn">read more</a>
+              <div class="icons">
+                  <a href="#"> <i class="fas fa-book"></i> 12 modules </a>
+                  <a href="#"> <i class="fas fa-clock"></i> 6 hours </a>
+              </div>
+          </div>
+      </div>
+  
+      <div class="box">
+          <div class="image">
+              <img src="images/main-course-2.png" alt="">
+          </div>
+          <div class="content">
+              <span>language</span>
+              <h3>Lesson </h3>
+              <p>Express Yourself: Pronunciation.</p>
+              <a href="#" class="btn">read more</a>
+              <div class="icons">
+                  <a href="#"> <i class="fas fa-book"></i> 12 modules </a>
+                  <a href="#"> <i class="fas fa-clock"></i> 6 hours </a>
+              </div>
+          </div>
+      </div>
+  
+      <div class="box">
+          <div class="image">
+              <img src="images/main-course-3.png" alt="">
+          </div>
+          <div class="content">
+              <span>development</span>
+              <h3>Sustainability and Development</h3>
+              <p>you’ll learn how to address sustainability and development challenges.</p>
+              <a href="#" class="btn">read more</a>
+              <div class="icons">
+                  <a href="#"> <i class="fas fa-book"></i> 12 modules </a>
+                  <a href="#"> <i class="fas fa-clock"></i> 6 hours </a>
+              </div>
+          </div>
+      </div>
+  
+      <div class="box">
+          <div class="image">
+              <img src="images/main-course-4.png" alt="">
+          </div>
+          <div class="content">
+              <span>teaching</span>
+              <h3>learning is what makes you perfect</h3>
+              <p>Foundations of Teaching for Learning: Being a Teacher.</p>
+              <a href="#" class="btn">read more</a>
+              <div class="icons">
+                  <a href="#"> <i class="fas fa-book"></i> 12 modules </a>
+                  <a href="#"> <i class="fas fa-clock"></i> 6 hours </a>
+              </div>
+          </div>
+      </div>
+  
+      <div class="box">
+          <div class="image">
+              <img src="images/main-course-5.png" alt="">
+          </div>
+          <div class="content">
+              <span>designing</span>
+              <h3>Designing Learning Innovation</h3>
+              <p>Designing and Implementing Your Coaching Strategy.</p>
+              <a href="#" class="btn">read more</a>
+              <div class="icons">
+                  <a href="#"> <i class="fas fa-book"></i> 12 modules </a>
+                  <a href="#"> <i class="fas fa-clock"></i> 6 hours </a>
+              </div>
+          </div>
+      </div>
+  
+      <div class="box">
+          <div class="image">
+              <img src="images/main-course-6.png" alt="">
+          </div>
+          <div class="content">
+              <span>speaking</span>
+              <h3>Public Speaking</h3>
+              <p>Good with Words: Speaking and Presenting Specialization</p>
+              <a href="#" class="btn">read more</a>
+              <div class="icons">
+                  <a href="#"> <i class="fas fa-book"></i> 12 modules </a>
+                  <a href="#"> <i class="fas fa-clock"></i> 6 hours </a>
+              </div>
+          </div>
+      </div>
+  
+  </section>
+</div>
+<!-- course-2 section ends -->
+<div id="course-3" class="content-section">
+  <section class="heading">
+    <h3>course-03</h3>
+    <p> <a href="#" onclick="showSection('home')"> home >>></a> course-3 </p>
+</section>
+
+<!-- course-3 section starts  -->
+
+<section class="course-3">
+
+    <div class="box">
+        <div class="video">
+            <i class="fas fa-play"></i>
+            <video src="images/course-vid-1.mp4"></video>
+        </div>
+        <div class="content">
+            <h3>introduction to e-book</h3>
+            <p>by Mark Peak</p>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="video">
+            <i class="fas fa-play"></i>
+            <video src="images/course-vid-2.mp4"></video>
+        </div>
+        <div class="content">
+            <h3>introduction to Science & Biology</h3>
+            <p>by Sandy Impher</p>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="video">
+            <i class="fas fa-play"></i>
+            <video src="images/course-vid-3.mp4"></video>
+        </div>
+        <div class="content">
+            <h3>introduction to Digital Marketing</h3>
+            <p>by Sirun Febe</p>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="video">
+            <i class="fas fa-play"></i>
+            <video src="images/course-vid-4.mp4"></video>
+        </div>
+        <div class="content">
+            <h3>introduction to coding</h3>
+            <p>by Sunny singh</p>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="video">
+            <i class="fas fa-play"></i>
+            <video src="images/course-vid-5.mp4"></video>
+        </div>
+        <div class="content">
+            <h3>introduction to data analysis</h3>
+            <p>by Methal duren</p>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="video">
+            <i class="fas fa-play"></i>
+            <video src="images/course-vid-6.mp4"></video>
+        </div>
+        <div class="content">
+            <h3>introduction to Art and Design</h3>
+            <p>by Sophia Parker</p>
+        </div>
+    </div>
+
+</section>
+<!-- course-3 section ends -->
+<div class="main-video">
+    <div id="close-vid" class="fas fa-times"></div>
+    <video src="" autoplay controls muted></video>
+</div>
+</div>
+<div id="blog" class="content-section">
+  <section class="heading">
+    <h3>our blogs</h3>
+    <p> <a href="#" onclick="showSection('home')"> home >>></a> blogs </p>
+</section>
+
+<!-- blog section starts  -->
+
+<section class="blog">
+
+    <div class="box">
+        <div class="image">
+            <img src="images/blog-1.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="icons">
+                <a href="#"> <i class="fas fa-clock"></i> 21st march, 2023 </a>
+                <a href="#"> <i class="fas fa-user"></i> by admin </a>
+            </div>
+            <h3>Introduction To E-Book</h3>
+            <p>Get a deep knowledge about how the e-book works and how marketing is done online.</p>
+            <a href="#" class="btn">read more</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/blog-2.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="icons">
+                <a href="#"> <i class="fas fa-clock"></i> 21st march, 2023 </a>
+                <a href="#"> <i class="fas fa-user"></i> by admin </a>
+            </div>
+            <h3>Introduction To Science & Biology</h3>
+            <p>Human body and the nature has lot of secerts, let's explore together.</p>
+            <a href="#" class="btn">read more</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/blog-3.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="icons">
+                <a href="#"> <i class="fas fa-clock"></i> 21st march, 2023 </a>
+                <a href="#"> <i class="fas fa-user"></i> by admin </a>
+            </div>
+            <h3>Introduction To Digital Marketing</h3>
+            <p>Cryptocurrencies are the big money of the future. Know why?</p>
+            <a href="#" class="btn">read more</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/blog-4.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="icons">
+                <a href="#"> <i class="fas fa-clock"></i> 21st march, 2023 </a>
+                <a href="#"> <i class="fas fa-user"></i> by admin </a>
+            </div>
+            <h3>Introduction To Coding</h3>
+            <p>Languages are important for communication, coding is a way to explore more.</p>
+            <a href="#" class="btn">read more</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/blog-5.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="icons">
+                <a href="#"> <i class="fas fa-clock"></i> 21st march, 2023 </a>
+                <a href="#"> <i class="fas fa-user"></i> by admin </a>
+            </div>
+            <h3>Introduction To Data Analysis</h3>
+            <p>Big company, just like that it has big data, so lets analysis the data together.</p>
+            <a href="#" class="btn">read more</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/blog-6.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="icons">
+                <a href="#"> <i class="fas fa-clock"></i> 21st march, 2023 </a>
+                <a href="#"> <i class="fas fa-user"></i> by admin </a>
+            </div>
+            <h3>Introduction To Art And Design</h3>
+            <p>Everyone likes beauty, behind every beauty there is a special art.</p>
+            <a href="#" class="btn">read more</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/blog-7.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="icons">
+                <a href="#"> <i class="fas fa-clock"></i> 21st march, 2023 </a>
+                <a href="#"> <i class="fas fa-user"></i> by admin </a>
+            </div>
+            <h3>Business Management and Risk Management</h3>
+            <p>Business without risk management is just like without raincoat in rainy days.</p>
+            <a href="#" class="btn">read more</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/blog-8.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="icons">
+                <a href="#"> <i class="fas fa-clock"></i> 21st march, 2023 </a>
+                <a href="#"> <i class="fas fa-user"></i> by admin </a>
+            </div>
+            <h3>Social Marketing</h3>
+            <p>Do you also want to become an Influncer? Lets explore the depth of social media together.</p>
+            <a href="#" class="btn">read more</a>
+        </div>
+    </div>
+</section>
+
+<!-- blog section ends -->
+</div>
+<div id="teachers" class="content-section">
+  <section class="heading">
+    <h3>our teachers</h3>
+    <p> <a href="#" onclick="showSection('home')">home >></a> teachers </p>
+</section>
+
+<!-- teachers section starts  -->
+
+<section class="teachers">
+
+    <div class="box">
+        <div class="image">
+            <img src="images/teacher-1.png" alt="">
+            <div class="share">
+                <a href="#" class="fab fa-facebook-f"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-linkedin"></a>
+            </div>
+        </div>
+        <div class="content">
+            <h3>Mr. Dan </h3>
+            <span>Mathematics & Physics</span>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/teacher-2.png" alt="">
+            <div class="share">
+                <a href="#" class="fab fa-facebook-f"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-linkedin"></a>
+            </div>
+        </div>
+        <div class="content">
+            <h3>lllll</h3>
+            <span>Science Teacher</span>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/teacher-3.png" alt="">
+            <div class="share">
+                <a href="#" class="fab fa-facebook-f"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-linkedin"></a>
+            </div>
+        </div>
+        <div class="content">
+            <h3>Sirun Febe</h3>
+            <span>Digital Marketing</span>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/teacher-4.png" alt="">
+            <div class="share">
+                <a href="#" class="fab fa-facebook-f"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-linkedin"></a>
+            </div>
+        </div>
+        <div class="content">
+            <h3>Sunny Singh</h3>
+            <span>web designer</span>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/teacher-5.png" alt="">
+            <div class="share">
+                <a href="#" class="fab fa-facebook-f"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-linkedin"></a>
+            </div>
+        </div>
+        <div class="content">
+            <h3>Methal Duren</h3>
+            <span> Data Analysist</span>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/teacher-6.png" alt="">
+            <div class="share">
+                <a href="#" class="fab fa-facebook-f"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-linkedin"></a>
+            </div>
+        </div>
+        <div class="content">
+            <h3>Sophia Parker</h3>
+            <span>Art Expert</span>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/teacher-7.png" alt="">
+            <div class="share">
+                <a href="#" class="fab fa-facebook-f"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-linkedin"></a>
+            </div>
+        </div>
+        <div class="content">
+            <h3>Leon deo</h3>
+            <span>Graphic Designer</span>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="image">
+            <img src="images/teacher-8.png" alt="">
+            <div class="share">
+                <a href="#" class="fab fa-facebook-f"></a>
+                <a href="#" class="fab fa-twitter"></a>
+                <a href="#" class="fab fa-instagram"></a>
+                <a href="#" class="fab fa-linkedin"></a>
+            </div>
+        </div>
+        <div class="content">
+            <h3>john deo</h3>
+            <span>web designer</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- teachers section ends -->
+</div>
+<div id="videos" class="content-section">
+  <section class="heading">
+    <h3>Video</h3>
+    <p><a href="#" onclick="showSection('home')"> home>>></a>video</p>
+  </section>
+  <div class="video-section">
+    <div class="video-container" id="video-container">
+      <!-- Video Cards will appear here -->
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div id="video-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-btn" class="close">&times;</span>
+      <video id="modal-video" controls></video>
+    </div>
+  </div>
+</div>
+<div id="notes" class="content-section">
+  <section class="heading">
+    <h3>E-learning</h3>
+    <p><a href="#" onclick="showSection('home')">home >>></a>E-learning</p>
+  <header>
+    <h1><span>Nyabs SS Empowering Learning Anytime, Anywhere.......</span></h1>
+  </header>
+  
+  <div class="login-bar">
+    <form class="login-form">
+      <input type="text" placeholder="Username">
+      <input type="password" placeholder="Password">
+      <button type="button">Login</button>
+    </form>
+  </div>
+  
+  <div class="search-bar">
+    <input type="text" id="course-search" placeholder="Search courses..." oninput="filterCourses()">
+  </div>
+  
+  <section class="feature">
+    <div class="feature-content">
+      <h2>Course Catalog</h2>
+      <p>Browse our full list of available courses below:</p>
+      <div class="card course-item">
+        <a href="#">Geography 101</a>
+        <p>Introduction to Geography</p>
+      </div>
+      <div class="card course-item">
+        <a href="#">Chemistry 101</a>
+        <p>Understanding the Elements</p>
+      </div>
+      <div class="card course-item">
+        <a href="#">Biology 101</a>
+        <p>Exploring the Human Body</p>
+      </div>
+    </div>
+    <div class="feature-action">
+      <h3>Enroll in Course</h3>
+      <button>Enroll Now</button>
+    </div>
+  </section>
+  
+  <section class="feature">
+    <div class="feature-content">
+      <h2>Virtual Classroom</h2>
+      <iframe src="https://www.youtube.com/embed/videolink" title="Virtual Classroom"></iframe>
+    </div>
+    <div class="feature-action">
+      <h3>Join Live Session</h3>
+      <button>Join Now</button>
+    </div>
+  </section>
+  
+  <section class="assignment-section">
+    <h2>Assignments</h2>
+    <div id="assignment-list">
+      <div class="card">
+        <a href="#">Assignment 1: Geography</a>
+        <button>Submit</button>
+      </div>
+      <div class="card">
+        <a href="#">Assignment 2: Chemistry</a>
+        <button>Submit</button>
+      </div>
+    </div>
+    <div class="load-more">
+      <button onclick="loadMore('assignment-list')">Load More Assignments</button>
+    </div>
+  </section>
+  
+  <section class="discussion-section">
+    <h2>Discussion Forum</h2>
+    <div id="discussion-list">
+      <div class="card">
+        <a href="#">Discussion Topic: Climate Change</a>
+      </div>
+      <div class="card">
+        <a href="#">Discussion Topic: Organic Chemistry</a>
+      </div>
+    </div>
+    <div class="load-more">
+      <button onclick="loadMore('discussion-list')">Load More Discussions</button>
+    </div>
+  </section>
+  
+  <section class="quiz-section">
+    <h2>Quizzes</h2>
+    <ul class="quiz-list">
+      <li class="quiz-item">
+        <a href="#">Geography Quiz 1</a>
+        <button>Start Quiz</button>
+      </li>
+      <li class="quiz-item">
+        <a href="#">Chemistry Quiz 1</a>
+        <button>Start Quiz</button>
+      </li>
+    </ul>
+  </section>
+  
+  <section class="feature">
+    <div class="feature-content">
+      <h2>Progress Dashboard</h2>
+      <p>Track your progress in each course below:</p>
+      <div class="card">
+        <p>Geography - 70% Completed</p>
+      </div>
+      <div class="card">
+        <p>Chemistry - 50% Completed</p>
+      </div>
+    </div>
+    <div class="feature-action">
+      <h3>View Full Report</h3>
+      <button>View Report</button>
+    </div>
+  </section>
+  
+  <section class="integration-links">
+    <button>Connect to Google Classroom</button>
+    <button>Connect to Moodle</button>
+  </section>
+
+  <header>
+    <h1>Nyabuhikye Secondary School Notes Repository</h1>
+    <div class="filters">
+      <select id="classSelect">
+        <option value="">Select Class</option>
+        <option value="senior1">Senior 1</option>
+        <option value="senior2">Senior 2</option>
+        <option value="senior3">Senior 3</option>
+        <option value="senior4">Senior 4</option>
+        <option value="senior5">Senior 5</option>
+        <option value="senior6">Senior 6</option>
+      </select>
+
+      <select id="subjectSelect">
+        <option value="">Select Subject</option>
+        <option value="geography">Geography</option>
+        <option value="chemistry">Chemistry</option>
+        <option value="biology">Biology</option>
+        <option value="physics">Physics</option>
+        <option value="history">History</option>
+        <option value="mathematics">Mathematics</option>
+        <option value="entrepreneurship">Entrepreneurship</option>
+        <option value="economics">Economics</option>
+        <option value="rr">Religious Education</option>
+        <option value="kiswahili">Kiswahili</option>
+        <option value="english">English</option>
+      </select>
+    </div>
+  </header>
+
+  <main id="notesContainer">
+    <!-- Notes will appear here -->
+  </main>
+  <script src="script.js"></script>
+  <header>
+    <h1>📘 📚 🎓</h1>
+    <p>Preview or download PDF notes by class and subject.</p>
+  </header>
+  
+  <main>
+    <div id="notes-container"></div>
+  </main>
+</div>
+<div id="news" class="content-section">
+  <section class="heading">
+    <h3>News</h3>
+    <p><a href="#" onclick="showSection('home')">home >>></a> News</p>
+  </section>
+  <div class="featured-news">
+    <h2>Nyabuhikye Secondary School News Section</h2>
+    <p>Welcome our dear viewers to our latest News updates!</p>
+    <a href="news-details.html" class="read-more">Browse Through</a>
+  </div>
+  <div class="news-section">
+    <div class="news-container" id="news-container">
+      <!-- Dynamic News Cards will appear here -->
+    </div>
+  
+    <button class="load-more-btn" id="load-more-btn">Load More</button>
+  </div>
+</div>
+<div id="developers" class="content-section">
+  <section class="developer-section">
+    <h2 class="developer-heading">Meet the Developers</h2>
+    <div class="developer-grid">
+      <div class="developer-card">
+        <img src="https://via.placeholder.com/150" alt="Developer" class="developer-img">
+        <h3 class="developer-name">Nuwandinda Onesmus</h3>
+        <p class="developer-role">Frontend Developer</p>
+        <p class="developer-skills">HTML, CSS, JavaScript, React</p>
+      </div>
+      <div class="developer-card">
+        <img src="https://via.placeholder.com/150" alt="Developer" class="developer-img">
+        <h3 class="developer-name">Bakesiima Anold</h3>
+        <p class="developer-role">Backend Developer</p>
+        <p class="developer-skills">Node.js, Python, Databases</p>
+      </div>
+       <div class="developer-card">
+        <img src="https://via.placeholder.com/150" alt="Developer" class="developer-img">
+        <h3 class="developer-name">Nuwagaba Clement</h3>
+        <p class="developer role">Developer</p>
+        <p class="developer-skills">coder</p>
+    </div>
+    <div class="developer-card">
+      <img src="https://via.placeholder.com/150" alt="Developer" class="developer-img">
+      <h3 class="developer-name">Henry</h3>
+      <p class="developer-role">developer marketing and sales</p>
+      <p class="developer-skills">html, js</p>
+    </div>
+    <div class="developer-card">
+      <img src="https://via.placeholder.com/150" alt="Developer" class="developer-img">
+      <h3 class="developer-name">Simon</h3>
+      <p class="developer-role">welfare</p>
+      <p class="developer-skills">html, js</p>
+    </div>
+  </div>
+    <div class="developer-cta">
+      <a href="#" class="developer-button">Join Our Dev Team</a>
+    </div>
+  </section>
+</div>
+  <footer>
+    <div class="footer-section">
+        <div class="container ">
+           <div class="width-33 footer-about">
+              <h3>Our School</h3>
+              <p>Nyabuhikye secondary School</p>
+              <i class="fa fa-facebook"></i> <i class="fa fa-twitter"></i> <i class="fa fa-linkedin"></i> <i class="fa fa-instagram"></i> 
+           </div>
+           <div class="width-33 quick-link">
+              <h3> Quick Links</h3>
+              <div class=" width-100">
+                 <ul>
+                    <li><a href="#" onclick="showSection('about')"><i class="fa fa-angle-right"></i> About us</a></li>
+                    <li ><a href="#" onclick="showSection('admission')"><i class="fa fa-angle-right"></i> Admission </a></li>
+                    <li> <a href="#" onclick="showSection('course-1')"><i class="fa fa-angle-right"></i> Courses Details</a></li>
+                    <li> <a href="#" onclick="showSection('notes')"><i class="fa fa-angle-right"></i> E-learning </a></li>
+                    <li> <a href="#" onclick="showSection('event')"><i class="fa fa-angle-right"></i> Event Details</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> Gallery</a></li>
+                    <li ><a href="#"><i class="fa fa-angle-right"></i> Teachers </a></li>
+                    <li><a href="#"> <i class="fa fa-angle-right"></i> FAQ</a></li>
+                    <li><a href="#"> <i class="fa fa-angle-right"></i> Login </a></li>
+                    <li><a href="#" onclick="showSection('contact')"> <i class="fa fa-angle-right"></i> Contact Us </a></li>
+                 </ul>
+              </div>
+           </div>
+           <div class=" width-33 subscribe-us">
+              <div class="s-card">
+              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjmbF3jhceZIWWSCyKZkPLtzFuclX47XDDH8LuF66jVK5I4XFZlhjPb5SRm9DQM3GRxc6ay12R7iBglc4XJM_M0Q4XYrsLm-lPPKTeTVvkfct6gB6o05XpQ6BYj7Z4HYW5bPK2LXAqE8_2bBt2Ev_pTqJriEx7QNq9wa9A8fNacvGmkGHISOx0Z5QyKdU4/w945-h600-p-k-no-nu/IMG-20250506-WA0016.jpg">
+              </div>
+           </div>
+        </div>
+        <div class="copyright" style="text-align: center;font-style: italic;"><p>&copy;2025 Nyabuhikye secondary school.All rights reserved.</p>
+        </div>
+  </footer>
+  <script>
+    function showSection(id) {
+      const sections = document.querySelectorAll('.content-section');
+      sections.forEach(section => section.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+    let currentIndex = 0;
+  const slides = document.querySelectorAll('.slide');
+  const textMessages = [
+    "Welcome to Nyabuhikye Secondary School",
+    "Empowering Future Leaders",
+    "Academic Excellence & Integrity",
+    "A Place to Learn and Grow"
+  ];
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active-slide', i === index);
+    });
+    typeWriter(textMessages[index], slides[index].querySelector('.slide-text'));
+  }
+  
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }
+
+  function typeWriter(text, element, i = 0) {
+    element.textContent = '';
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 80);
+  }
+
+
+  showSlide(currentIndex);
+  setInterval(nextSlide, 5000);
+    // Simulate CMS with a JSON object (can later be replaced by a backend CMS or database)
+    const videoData = [
+    {
+      title: "School Sports Day Highlights",
+      description: "Watch the best moments from our annual sports day, filled with fun, energy, and teamwork!",
+      videoUrl: "videos/sports-day.mp4",
+      thumbnail: "images/sports-day.jpg"
+    },
+    {
+      title: "Science Fair 2025",
+      description: "Our students showcase their innovative science projects at this year's science fair.",
+      videoUrl: "videos/science-fair.mp4",
+      thumbnail: "images/science-fair.jpg"
+    },
+    {
+      title: "Graduation Ceremony",
+      description: "A memorable day for our senior students as they celebrate their hard work and achievements.",
+      videoUrl: "videos/graduation.mp4",
+      thumbnail: "images/graduation.jpg"
+    },
+    {
+      title: "Art Exhibition Highlights",
+      description: "Take a look at the beautiful artwork created by our talented students during the annual art exhibition.",
+      videoUrl: "videos/art-exhibition.mp4",
+      thumbnail: "images/art-exhibition.jpg"
+    }
+  ];
+
+  const videoContainer = document.getElementById("video-container");
+
+  function createVideoCard(video) {
+    const card = document.createElement("div");
+    card.classList.add("video-card");
+
+    const image = document.createElement("img");
+    image.src = video.thumbnail;
+    card.appendChild(image);
+
+    const content = document.createElement("div");
+    content.classList.add("video-card-content");
+
+    const title = document.createElement("h3");
+    title.textContent = video.title;
+    content.appendChild(title);
+
+    const description = document.createElement("p");
+    description.textContent = video.description;
+    content.appendChild(description);
+
+    const viewVideoLink = document.createElement("a");
+    viewVideoLink.classList.add("view-video");
+    viewVideoLink.href = "#";
+    viewVideoLink.textContent = "View Video";
+    viewVideoLink.addEventListener("click", () => openModal(video.videoUrl));
+    content.appendChild(viewVideoLink);
+
+    card.appendChild(content);
+
+    return card;
+  }
+
+  function loadVideos() {
+    videoData.forEach(video => {
+      videoContainer.appendChild(createVideoCard(video));
+    });
+  }
+
+  // Modal functionality
+  const modal = document.getElementById("video-modal");
+  const modalVideo = document.getElementById("modal-video");
+  const closeBtn = document.getElementById("close-btn");
+
+  function openModal(videoUrl) {
+    modal.style.display = "flex";
+    modalVideo.src = videoUrl;
+  }
+
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+    modalVideo.src = ""; // Stop the video when closed
+  });
+
+  // Close the modal if clicked outside of the modal content
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+      modalVideo.src = "";
+    }
+  });
+
+  // Initially load the videos
+  loadVideos();
+  document.querySelectorAll('.quiz-item button').forEach(button => {
+    button.addEventListener('click', () => {
+      alert('Starting Quiz...');
+    });
+  });
+
+  document.querySelectorAll('.card button').forEach(button => {
+    button.addEventListener('click', () => {
+      alert('Assignment Submitted!');
+    });
+  });
+
+  function loadMore(id) {
+    const container = document.getElementById(id);
+    for (let i = 1; i <= 2; i++) {
+      const newCard = document.createElement('div');
+      newCard.className = 'card';
+      newCard.innerHTML = `<a href="#">New ${id.includes('assignment') ? 'Assignment' : 'Discussion'} ${Math.floor(Math.random() * 100)}</a>` +
+        (id.includes('assignment') ? '<button>Submit</button>' : '');
+      container.appendChild(newCard);
+    }
+  }
+
+  function filterCourses() {
+    const query = document.getElementById('course-search').value.toLowerCase();
+    document.querySelectorAll('.course-item').forEach(item => {
+      item.style.display = item.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
+    });
+  }
+  const notes = [
+  {
+    class: "senior1",
+    subject: "geography",
+    title: "Introduction to Geography",
+    content: "Geography is the study of Earth's landscapes, environments, and places..."
+  },
+  {
+    class: "senior2",
+    subject: "chemistry",
+    title: "Atoms and Molecules",
+    content: "Everything around us is made of atoms and molecules..."
+  },
+  // Add more notes here
+];
+
+const classSelect = document.getElementById("classSelect");
+const subjectSelect = document.getElementById("subjectSelect");
+const notesContainer = document.getElementById("notesContainer");
+
+function displayNotes() {
+  const selectedClass = classSelect.value;
+  const selectedSubject = subjectSelect.value;
+
+  const filteredNotes = notes.filter(note => 
+    (!selectedClass || note.class === selectedClass) &&
+    (!selectedSubject || note.subject === selectedSubject)
+  );
+
+  notesContainer.innerHTML = "";
+
+  if (filteredNotes.length === 0) {
+    notesContainer.innerHTML = "<p>No notes found.</p>";
+    return;
+  }
+
+  filteredNotes.forEach(note => {
+    const card = document.createElement("div");
+    card.className = "note-card";
+    card.innerHTML = `<h3>${note.title}</h3><p>${note.content}</p>`;
+    notesContainer.appendChild(card);
+  });
+}
+
+classSelect.addEventListener("change", displayNotes);
+subjectSelect.addEventListener("change", displayNotes);
+// Example PDF structure
+const notesData = {
+    "Senior 1": {
+      "Geography": [
+        { title: "Introduction to Geography", file: "notes/senior1/geography/intro.pdf" },
+        { title: "Map Reading", file: "notes/senior1/geography/maps.pdf" }
+      ],
+      "Chemistry": [
+        { title: "States of Matter", file: "notes/senior1/chemistry/states.pdf" }
+      ]
+    },
+    "Senior 2": {
+      "Biology": [
+        { title: "Cells & Tissues", file: "notes/senior2/biology/cells.pdf" }
+      ],
+      "Mathematics": [
+        { title: "Linear Equations", file: "notes/senior2/math/linear.pdf" }
+      ]
+    },
+    "Senior 3": {
+      "Physics": [
+        { title: "Forces and Motion", file: "notes/senior3/physics/forces.pdf" }
+      ]
+    },
+    "Senior 4": {
+      "Entrepreneurship": [
+        { title: "Business Planning", file: "notes/senior4/entrepreneurship/planning.pdf" }
+      ]
+    },
+    "Senior 5": {
+      "Economics": [
+        { title: "Demand and Supply", file: "notes/senior5/economics/demand.pdf" }
+      ]
+    },
+    "Senior 6": {
+      "English": [
+        { title: "Essay Writing", file: "notes/senior6/english/essay.pdf" }
+      ]
+    }
+  };
+
+  function createNoteElement(note) {
+    const noteDiv = document.createElement("div");
+    noteDiv.className = "note";
+
+    const title = document.createElement("div");
+    title.className = "note-title";
+    title.textContent = note.title;
+
+    const actions = document.createElement("div");
+    actions.className = "note-actions";
+
+    const previewBtn = document.createElement("a");
+    previewBtn.className = "preview-btn";
+    previewBtn.href = note.file;
+    previewBtn.target = "_blank";
+    previewBtn.textContent = "Preview";
+
+    const downloadBtn = document.createElement("a");
+    downloadBtn.className = "download-btn";
+    downloadBtn.href = note.file;
+    downloadBtn.download = "";
+    downloadBtn.textContent = "Download";
+
+    actions.appendChild(previewBtn);
+    actions.appendChild(downloadBtn);
+
+    noteDiv.appendChild(title);
+    noteDiv.appendChild(actions);
+
+    return noteDiv;
+  }
+
+  function createSubjectSection(subject, notes) {
+    const section = document.createElement("div");
+    section.className = "subject";
+
+    const title = document.createElement("h3");
+    title.textContent = subject;
+    section.appendChild(title);
+
+    notes.forEach(note => section.appendChild(createNoteElement(note)));
+
+    return section;
+  }
+
+  function createClassSection(level, subjects) {
+    const classDiv = document.createElement("div");
+    classDiv.className = "class-section";
+
+    const heading = document.createElement("h2");
+    heading.textContent = level;
+    classDiv.appendChild(heading);
+
+    Object.entries(subjects).forEach(([subject, notes]) => {
+      classDiv.appendChild(createSubjectSection(subject, notes));
+    });
+
+    return classDiv;
+  }
+
+  function renderNotes(data) {
+    const container = document.getElementById("notes-container");
+    Object.entries(data).forEach(([level, subjects]) => {
+      container.appendChild(createClassSection(level, subjects));
+    });
+  }
+
+  renderNotes(notesData);
+  const newsData = [
+    {
+      title: "New Sports Facilities Opened",
+      description: "We are excited to announce the opening of our new sports facilities, which include a state-of-the-art gym and football field.",
+      imageUrl: "images/news1.jpg",
+      link: "news-details.html"
+    },
+    {
+      title: "Students Attend STEM Conference",
+      description: "Our students participated in a national STEM conference, where they showcased innovative projects and made valuable connections.",
+      imageUrl: "images/news2.jpg",
+      link: "news-details.html"
+    },
+    {
+      title: "New Library Resources Available",
+      description: "The school library has updated its resources with new books, journals, and online databases to support student learning.",
+      imageUrl: "images/news3.jpg",
+      link: "news-details.html"
+    },
+    {
+      title: "Charity Event Raises Funds for Local Cause",
+      description: "Our annual charity event raised funds for local communities, showcasing our commitment to giving back to society.",
+      imageUrl: "images/news4.jpg",
+      link: "news-details.html"
+    },
+    {
+      title: "Tech Workshop for Teachers",
+      description: "We are offering a tech workshop for our educators to ensure they are up to date with the latest teaching tools and digital learning.",
+      imageUrl: "images/news5.jpg",
+      link: "news-details.html"
+    },
+    {
+      title: "Student Art Exhibition",
+      description: "Our talented students will showcase their artwork at a special exhibition, with pieces ranging from paintings to sculptures.",
+      imageUrl: "images/news6.jpg",
+      link: "news-details.html"
+    }
+  ];
+
+  const newsContainer = document.getElementById("news-container");
+  const loadMoreButton = document.getElementById("load-more-btn");
+
+  function createNewsCard(news) {
+    const card = document.createElement("div");
+    card.classList.add("news-card");
+    
+    const image = document.createElement("img");
+    image.src = news.imageUrl;
+    card.appendChild(image);
+    
+    const content = document.createElement("div");
+    content.classList.add("news-card-content");
+    
+    const title = document.createElement("h3");
+    title.textContent = news.title;
+    content.appendChild(title);
+    
+    const description = document.createElement("p");
+    description.textContent = news.description;
+    content.appendChild(description);
+    
+    const readMore = document.createElement("a");
+    readMore.classList.add("read-more");
+    readMore.href = news.link;
+    readMore.textContent = "Read More";
+    content.appendChild(readMore);
+    
+    card.appendChild(content);
+    
+    return card;
+  }
+
+  function loadNews() {
+    const newsToLoad = newsData.slice(currentIndex, currentIndex + 3);  // Load 3 news articles at a time
+    newsToLoad.forEach(news => {
+      newsContainer.appendChild(createNewsCard(news));
+    });
+    
+    currentIndex += 3;
+    
+    // If no more news to load, hide the "Load More" button
+    if (currentIndex >= newsData.length) {
+      loadMoreButton.style.display = "none";
+    }
+  }
+
+  loadMoreButton.addEventListener("click", loadNews);
+
+  // Initially load the first batch of news
+  loadNews();
+   // Toggle chatbot visibility
+   function toggleChatbot() {
+            const chatbot = document.getElementById('chatbot');
+            const isVisible = chatbot.style.display === 'block';
+            chatbot.style.display = isVisible ? 'none' : 'block';
+        }
+
+        function startFunction() {
+        setLastSeen();
+        waitAndResponce("intro");
+    }
+    
+    function setLastSeen() {
+        var date = new Date();
+        var lastSeen = document.getElementById("lastseen");
+        lastSeen.innerText = "last seen today at " + date.getHours() + ":" + date.getMinutes()
+    }
+    
+
+        const chatMessages = document.getElementById('chat-messages');
+    const typingIndicator = document.getElementById('typing-indicator');
+
+    const faqResponses = {
+      "admission": "Admission opens in July. You can apply online or visit the school office.",
+      "notes": "Notes are available under the 'Notes' section. Please check there for updates.",
+      "teachers": "Meet the dedicated educators behind our students' success, You can find the list of teachers under the 'pages > Staff' section.",
+      "contact": "You can contact us at info@school.com or call 0773741858.",
+      "fees": "School fees information is available in the admission section.",
+      "hi": "hi there 👋 send admission, notes, teachers, education , contact, fees, calender, careers, coding to get more info on those.",
+      "careers": "my developers are still working tirelessly update on the latest careers to help you achieve",
+      "location": "kindly check in our contact section to get a preview of our google map and other info about location",
+      "developers": "These are my heros my great gods who programmed me Anold bro big-up to you ma men",
+      "school name": "Nyabuhikye secondary school.",
+      "education": "At Nyabuhikye SS we are aimed at Empowering students for a brighter future through quality education and holistic development 📘🏆🎓",
+      "calendar": "You can find the school calendar under the Events section.",
+    };
+  
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      appendMessage(userText, 'user');
+      input.value = '';
+
+      typingIndicator.style.display = 'block';
+      setTimeout(() => {
+        typingIndicator.style.display = 'none';
+        const response = getResponse(userText);
+        appendMessage(response, 'bot');
+      }, 1000);
+      var lastSeen = document.getElementById("lastseen");
+      lastSeen.innerText = "typing...";
+      setTimeout(setLastSeen, 1000);
+      var date = new Date();
+    }
+    
+   
+    function appendMessage(text, sender) {
+      const msg = document.createElement('div');
+      msg.className = `chat-message ${sender}`;
+      const avatar = document.createElement('div');
+      avatar.className = 'chat-avatar';
+      const content = document.createElement('div');
+      content.textContent = text;
+
+      if (sender === 'bot') {
+        msg.appendChild(avatar);
+        msg.appendChild(content);
+      } else {
+        msg.appendChild(content);
+        msg.appendChild(avatar);
+      }
+
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function getResponse(input) {
+      const cleaned = input.toLowerCase().replace(/[^a-zA-Z ]/g, '');
+      for (let key in faqResponses) {
+        if (cleaned.includes(key)) {
+          return faqResponses[key];
+        }
+      }
+      return "Sorry  😢 😢 😢, I didn't understand that. Can you please rephrase or ask something else?";
+    }
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+    const dropdown = document.querySelector('.dropdown');
+    if (dropdown) {
+      dropdown.innerHTML += '<li><a href="#" onclick="showSection(\'developers\')">Developers</a></li>';
+    }
+  });
+  </script>
+  </script>
+</body>
+</html>
+
